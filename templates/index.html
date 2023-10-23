@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Peningkatan Kualitas Citra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Aplikasi Peningkatan Kualitas Citra</h1>
+    
+    <form class="box" id="uploadImage" action="{{ url_for('process_image') }}" method="POST" enctype="multipart/form-data">
+        <div class="uploader-img">
+            <section>
+                <label for="input_image">Pilih satu citra yang ingin ditingkatkan.</label><br>
+                <input
+                    type="file"
+                    name="input_image"
+                    id="inputImage"
+                    accept=".jpg, .jpeg, .png" />
+                <div class="preview" id="preview"></div>
+            </section>
+            <section>
+                <label for="desired_hist">Pilih satu citra sebagai referensi.</label><br>
+                <input
+                    type="file"
+                    name="desired_image"
+                    id="desiredHist"
+                    accept=".jpg, .jpeg, .png" />
+                <div class="preview" id="previewDesired"></div>
+            </section>
+        </div>
+
+        <div class="submit">
+            <input type="submit" value="Tingkatkan Kualitas Gambar">
+        </div>
+    </form>
+
+    <div class="box result">
+        <h2>Hasil Peningkatan Citra</h2>
+        <div class="preview" id="result"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
