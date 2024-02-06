@@ -5,5 +5,5 @@ Aplikasi ini adalah aplikasi web yang mengolah citra masukkan dengan histogram y
 Cara penggunaan (dalam mode pengembang):
 
 ```
-flask --app app.py run
+flask --app histspec run
 ```
