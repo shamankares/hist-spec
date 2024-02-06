@@ -1,8 +1,10 @@
-from . import image
+from . import image, validator
 
 from flask import Flask, render_template, request, make_response
+from werkzeug.exceptions import HTTPException
 
 import os
+import json
 
 def create_app(config=None):
   app = Flask(__name__, instance_relative_config=True)
@@ -19,12 +21,29 @@ def create_app(config=None):
   except OSError:
     pass
 
+  @app.errorhandler(HTTPException)
+  def handle_exception(err):
+    response = err.get_response()
+    response.data = json.dumps({
+        "statusCode": err.code,
+        "status": 'failed',
+        "message": err.description,
+    })
+    response.content_type = "application/json"
+    return response
+
   @app.route('/')
   def index():
     return render_template('index.html')
 
   @app.post('/process')
   def process_image():
+    try:
+      validator.validate_request_properties(request)
+      validator.validate_images(request)
+    except HTTPException as err:
+      raise err
+
     uploads = request.files
     files = {}
 
@@ -32,7 +51,7 @@ def create_app(config=None):
         file_stream = file.stream.read()
         files[key] = image.create_image(file_stream)
     
-    result = image.process_image(files['input_image'], files['desired_image'])
+    result = image.process_image(files['inputImage'], files['desiredImage'])
     
     response = make_response(result.getvalue())
     response.mimetype = 'image/png'
