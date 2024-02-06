@@ -33,7 +33,7 @@ def test_upload_invalid_image_file(client):
 
   assert res_invalid_input_image_json['statusCode'] == 400
   assert res_invalid_input_image_json['status'] == 'failed'
-  assert res_invalid_input_image_json['message'] == 'inputImage must be an image file'
+  assert res_invalid_input_image_json['message'] == "'inputImage' must be an image file"
 
   response_invalid_desired_image = client.post("/process", data={
     "inputImage": (resource/"tepi_pantai.jpg").open("rb"),
@@ -44,7 +44,7 @@ def test_upload_invalid_image_file(client):
 
   assert res_invalid_desired_image_json['statusCode'] == 400
   assert res_invalid_desired_image_json['status'] == 'failed'
-  assert res_invalid_desired_image_json['message'] == 'desiredImage must be an image file'
+  assert res_invalid_desired_image_json['message'] == "'desiredImage' must be an image file"
 
 def test_upload_too_large_image_file(client):
   response_large_input_image = client.post("/process", data={
