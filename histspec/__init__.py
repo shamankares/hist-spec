@@ -33,10 +33,6 @@ def create_app(config=None):
     response.content_type = "application/json"
     return response
 
-  @app.route('/')
-  def index():
-    return render_template('index.html')
-
   @app.post('/process')
   def process_image():
     try:
