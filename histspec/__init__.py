@@ -1,6 +1,7 @@
 from . import image, validator
 
 from flask import Flask, request, make_response
+from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 
 import os
@@ -55,5 +56,6 @@ def create_app(config=None):
 
     return response
 
+  CORS(app)
   return app
 
