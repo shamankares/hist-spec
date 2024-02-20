@@ -1,6 +1,6 @@
 from . import image, validator
 
-from flask import Flask, render_template, request, make_response
+from flask import Flask, request, make_response
 from werkzeug.exceptions import HTTPException
 
 import os
