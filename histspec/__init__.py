@@ -14,7 +14,9 @@ def create_app(config=None):
   if config is None:
     if not app.config.from_pyfile('config.py', silent=True):
       app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-      app.config['MAX_CONTENT_LENGTH'] = os.getenv('MAX_CONTENT_LENGTH')
+
+      if 'MAX_CONTENT_LENGTH' in os.environ:
+        app.config['MAX_CONTENT_LENGTH'] = os.getenv('MAX_CONTENT_LENGTH')
   else:
     app.config.from_mapping(config)
   
