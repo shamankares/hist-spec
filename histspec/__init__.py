@@ -10,6 +10,7 @@ import json
 def create_app(config=None):
   app = Flask(__name__, instance_relative_config=True)
   app.config['MAX_CONTENT_LENGTH'] = 2 * 1000 * 1000
+  app.config['CORS'] = ['http://*:*', 'https://*:*']
 
   if config is None:
     if not app.config.from_pyfile('config.py', silent=True):
@@ -17,6 +18,9 @@ def create_app(config=None):
 
       if 'MAX_CONTENT_LENGTH' in os.environ:
         app.config['MAX_CONTENT_LENGTH'] = os.getenv('MAX_CONTENT_LENGTH')
+
+      if 'CORS' in os.environ:
+        app.config['CORS'] = json.loads(os.getenv('CORS'))
   else:
     app.config.from_mapping(config)
   
@@ -58,6 +62,6 @@ def create_app(config=None):
 
     return response
 
-  CORS(app)
+  CORS(app, origins=app.config['CORS'])
   return app
 
