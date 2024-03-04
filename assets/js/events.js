@@ -8,7 +8,7 @@ export function loadAdditionalConfig() {
 
 export function updateImageDisplay(uploader, preview){
   while (preview.firstChild) {
-      preview.removeChild(preview.firstChild);
+    preview.removeChild(preview.firstChild);
   }
 
   const file = uploader.files[0];
@@ -21,6 +21,8 @@ export async function processImages(event) {
   event.preventDefault();
 
   const resultPreview = document.querySelector('#result .preview');
+  resultPreview.replaceChildren();
+
   const placeholder = document.createElement('p');
   placeholder.textContent = 'Processing...';
   resultPreview.append(placeholder);
@@ -28,18 +30,40 @@ export async function processImages(event) {
   const form = document.getElementById('uploadImage');
   const url = form.getAttribute('action');
   const formData = new FormData(form);
-  const result = await fetch(url, {
-      method: 'POST',
-      body: formData,
-  })
-  .then((res) => res.blob())
-  .then((blob) => URL.createObjectURL(blob));
-  
-  while (resultPreview.firstChild) {
-      resultPreview.removeChild(resultPreview.firstChild);
-  }
 
+  await fetch(url, {
+    method: 'POST',
+    body: formData,
+  })
+  .then((res) => {
+    if (res.ok) return res.blob();
+
+    return res.json().then(({
+      message: errorMessage,
+      statusCode,
+    }) => {
+      if (statusCode === 500) {
+        throw new Error('Something is wrong in server. Try again later.');
+      }
+      throw new Error(errorMessage);
+    });        
+  })
+  .then(renderResult)
+  .catch(renderError);
+}
+
+function renderResult(blob) {
+  const resultPreview = document.querySelector('#result .preview');
+  resultPreview.replaceChildren();
+
+  const objectUrl = URL.createObjectURL(blob)
   const img = document.createElement('img');
-  img.src = result;
+  img.src = objectUrl;
+  
   resultPreview.append(img);
+}
+
+function renderError(errorMessage) {
+  const messageElement = document.querySelector('#result .preview p');
+  messageElement.textContent = errorMessage;
 }
