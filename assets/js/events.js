@@ -59,8 +59,23 @@ function renderResult(blob) {
   const objectUrl = URL.createObjectURL(blob)
   const img = document.createElement('img');
   img.src = objectUrl;
+
+  const downloadWrapper = document.createElement('div');
+  downloadWrapper.setAttribute('class', 'link-btn-wrapper');
+
+  const downloadAttrib = document.createAttribute('download');
+  const downloadLink = document.createElement('a');
+  downloadLink.setAttribute('href', objectUrl);
+  downloadLink.setAttribute('draggable', false);
+  downloadLink.setAttributeNode(downloadAttrib);
+
+  const downloadButton = document.createElement('button');
+  downloadButton.textContent = 'Download Image';
   
-  resultPreview.append(img);
+  downloadLink.append(downloadButton);
+  downloadWrapper.append(downloadLink);
+
+  resultPreview.append(img, downloadWrapper);
 }
 
 function renderError(errorMessage) {
