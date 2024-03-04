@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histogram Specification Application</title>
+  <link rel="stylesheet" href="assets/css/style.scss">
+</head>
+
+<body>
+  <header class="box center">
+    <h1>Histogram Specification Application</h1>
+  </header>
+
+  <section class="box center">
+    <form id="uploadImage" method="POST" enctype="multipart/form-data">
+      <div id="formImg">
+        <section class="uploader">
+          <div class="form-input">
+            <label for="inputImage">Choose an image as the input.</label><br>
+            <p>The image file size should be <b>less</b> than 2MB.</p>
+            <input type="file" name="inputImage" id="inputImage" accept=".jpg, .jpeg, .png" />
+          </div>
+          <div class="preview" id="previewInput"></div>
+        </section>
+
+        <section class="uploader">
+          <div class="form-input">
+            <label for="desiredImage">Choose an image as the reference.</label><br>
+            <p>The image file size should be <b>less</b> than 2MB.</p>
+            <input type="file" name="desiredImage" id="desiredHist" accept=".jpg, .jpeg, .png" />
+          </div>
+          <div class="preview" id="previewDesired"></div>
+        </section>
+      </div>
+
+      <div class="submit">
+        <button type="submit">Process Image</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="box center" id="result">
+    <h2>Result</h2>
+    <div class="preview"></div>
+  </section>
+
+  <footer class="center">
+    <p>Created by <a href="https://github.com/shamankares">ShamanKares</a></p>
+  </footer>
+
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+
+</html>
