@@ -53,6 +53,10 @@ body {
   background-color: $brown;
   margin: auto;
   width: max(540px, 65%);
+
+  @media (max-width: 540px) {
+    width: 100%;
+  }
 }
 
 header {
